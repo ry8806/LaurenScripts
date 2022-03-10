@@ -29,8 +29,6 @@ Function Select_File($InitialDirectory)
 $zipLocation = (Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall |
 % { Get-ItemProperty $_.PsPath } | Where-Object { $_.DisplayName -like '7-Zip*' } | Select InstallLocation).InstallLocation
 
-$zipLocation = $null
-
 if ([string]::IsNullOrEmpty($zipLocation)){
     Write-Host "Can't find 7-Zip using Registry"
 
