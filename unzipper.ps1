@@ -12,7 +12,9 @@ Function Select_File($InitialDirectory)
     Add-Type -AssemblyName System.Windows.Forms
     $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
     $OpenFileDialog.Title = "Please Select File"
-    $OpenFileDialog.filter = “Zip files (*.7z;*.zip)| *.7z;*.zip”
+    #$OpenFileDialog.InitialDirectory = $InitialDirectory
+    #$OpenFileDialog.filter = “Zip files (*.7z;*.zip)| *.7z;*.zip”
+    $OpenFileDialog.filter = “Zip files (*.7z;*.zip;*.mkv)| *.7z;*.zip;*.mkv”
     $OpenFileDialog.RestoreDirectory = $True
 
     If ($OpenFileDialog.ShowDialog() -eq "Cancel")
@@ -26,6 +28,23 @@ Function Select_File($InitialDirectory)
 # Gets the folder where 7-Zip lives
 $zipLocation = (Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall |
 % { Get-ItemProperty $_.PsPath } | Where-Object { $_.DisplayName -like '7-Zip*' } | Select InstallLocation).InstallLocation
+
+$zipLocation = $null
+
+if ([string]::IsNullOrEmpty($zipLocation)){
+    Write-Host "Can't find 7-Zip using Registry"
+
+    $7zipStandardLocation = "C:\Program Files\7-Zip\"
+
+    if (!(Test-Path -Path $7zipStandardLocation)) {
+        Write-Host "7-Zip not found, falling back to Windows Extractor" 
+
+        # TODO: Fall back here
+    }
+    else {
+        $zipLocation = $7zipStandardLocation
+    }
+}
 
 # Open the Select File dialog
 Select_File([Environment]::GetFolderPath('Desktop'))
