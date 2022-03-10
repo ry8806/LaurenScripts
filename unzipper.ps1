@@ -12,9 +12,7 @@ Function Select_File($InitialDirectory)
     Add-Type -AssemblyName System.Windows.Forms
     $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
     $OpenFileDialog.Title = "Please Select File"
-    #$OpenFileDialog.InitialDirectory = $InitialDirectory
-    #$OpenFileDialog.filter = “Zip files (*.7z;*.zip)| *.7z;*.zip”
-    $OpenFileDialog.filter = “Zip files (*.7z;*.zip;*.mkv)| *.7z;*.zip;*.mkv”
+    $OpenFileDialog.filter = “Zip files (*.7z;*.zip)| *.7z;*.zip”
     $OpenFileDialog.RestoreDirectory = $True
 
     If ($OpenFileDialog.ShowDialog() -eq "Cancel")
